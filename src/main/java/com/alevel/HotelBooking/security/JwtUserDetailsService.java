@@ -1,6 +1,8 @@
 package com.alevel.HotelBooking.security;
 
 import com.alevel.HotelBooking.entities.User;
+import com.alevel.HotelBooking.security.jwt.JwtUser;
+import com.alevel.HotelBooking.security.jwt.JwtUserFactory;
 import com.alevel.HotelBooking.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,11 +24,12 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userService.findByUsername(username);
-        if(user == null){
+        if (user == null) {
             throw new UsernameNotFoundException("Username with username: " + username + " not found");
         }
 
+        JwtUser jwtUser = JwtUserFactory.create(user);
 
-        return null;
+        return jwtUser;
     }
 }
