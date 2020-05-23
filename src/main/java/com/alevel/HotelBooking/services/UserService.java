@@ -11,11 +11,13 @@ public interface UserService {
 
     User findById (Integer id);
 
-    void addNewUser (User user);
+    User register (User user);
 
     void deleteUserById (Integer id);
 
     List<User> getAllUsers();
+
+    User findByUsername(String username);
 
 
 }
