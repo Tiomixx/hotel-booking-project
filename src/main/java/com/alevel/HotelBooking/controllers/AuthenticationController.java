@@ -1,12 +1,14 @@
 package com.alevel.HotelBooking.controllers;
 
 import com.alevel.HotelBooking.dto.AuthRequestDto;
+import com.alevel.HotelBooking.dto.RegisterRequestDto;
 import com.alevel.HotelBooking.entities.User;
 import com.alevel.HotelBooking.security.jwt.JwtTokenProvider;
 import com.alevel.HotelBooking.services.UserService;
 import io.jsonwebtoken.Jwt;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
@@ -34,7 +36,6 @@ public class AuthenticationController {
         this.jwtTokenProvider = jwtTokenProvider;
         this.userService = userService;
     }
-
 
 
     @PostMapping("/signin")
@@ -57,5 +58,14 @@ public class AuthenticationController {
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid username or password");
         }
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity signUp(@RequestBody RegisterRequestDto registerRequestDto) {
+        String username = registerRequestDto.getUsername();
+        User user = RegisterRequestDto.toUserEntity(registerRequestDto);
+        userService.register(user);
+
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 }

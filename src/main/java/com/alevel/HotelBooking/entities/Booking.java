@@ -1,8 +1,12 @@
 package com.alevel.HotelBooking.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
@@ -24,30 +28,39 @@ public class Booking {
     private Date dateOut;
 
 
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private User user;
 
+    //    @JoinTable(
+//            name = "booked_rooms",
+//            joinColumns = {@JoinColumn(name = "booking_id", referencedColumnName = "bookingId")},
+//            inverseJoinColumns = {@JoinColumn(name = "room_id", referencedColumnName = "roomId")}
+//    )
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "booking_rooms",
-            joinColumns = {@JoinColumn(name = "booking_id")},
-            inverseJoinColumns = {@JoinColumn(name = "room_id")}
-    )
-    private List<Room> rooms;
+
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn (name = "room_id")
+    private Room rooms;
+
+
+//    @Column
+//    private Double bookingPrice;
 
 
     public Booking() {
     }
 
 
-    public Booking(int bookingId, Date dateIn, Date dateOut, User user, List<Room> rooms) {
+    public Booking(int bookingId, Date dateIn, Date dateOut,Double bookingPrice, User user, Room rooms) {
         this.bookingId = bookingId;
         this.dateIn = dateIn;
         this.dateOut = dateOut;
         this.user = user;
         this.rooms = rooms;
+//        this.bookingPrice = bookingPrice;
     }
 
     public int getBookingId() {
@@ -82,11 +95,19 @@ public class Booking {
         this.user = user;
     }
 
-    public List<Room> getRooms() {
+    public Room getRooms() {
         return rooms;
     }
 
-    public void setRooms(List<Room> rooms) {
+    public void setRooms(Room rooms) {
         this.rooms = rooms;
     }
+
+//    public Double getBookingPrice() {
+//        return bookingPrice;
+//    }
+//
+//    public void setBookingPrice(Double bookingPrice) {
+//        this.bookingPrice = bookingPrice;
+//    }
 }

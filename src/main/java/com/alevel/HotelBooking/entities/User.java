@@ -1,5 +1,8 @@
 package com.alevel.HotelBooking.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,11 +30,14 @@ public class User {
     @Column(name = "email")
     private String email;
 
+
     @Column(name = "password")
     private String password;
 
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Booking> bookings;
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",

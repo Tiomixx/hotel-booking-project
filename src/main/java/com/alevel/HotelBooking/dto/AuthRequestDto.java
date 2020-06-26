@@ -1,6 +1,7 @@
 package com.alevel.HotelBooking.dto;
 
 public class AuthRequestDto {
+
     private String username;
     private String password;
 

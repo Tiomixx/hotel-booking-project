@@ -2,14 +2,13 @@ package com.alevel.HotelBooking.entities;
 
 
 import lombok.Data;
-import org.hibernate.annotations.GeneratorType;
+
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "roles")
-@Data
 public class Role {
 
     @Id

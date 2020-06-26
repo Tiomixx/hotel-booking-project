@@ -3,6 +3,7 @@ package com.alevel.HotelBooking.services;
 import com.alevel.HotelBooking.entities.Hotel;
 import com.alevel.HotelBooking.entities.Room;
 
+import java.util.Date;
 import java.util.List;
 
 public interface RoomService {
@@ -17,5 +18,6 @@ public interface RoomService {
 
     List<Room> getRoomsByHotel (List<Integer> ids);
 
+    List<Room> getAvailableRooms (Date in, Date out);
 
 }

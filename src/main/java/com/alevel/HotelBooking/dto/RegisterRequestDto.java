@@ -1,46 +1,36 @@
 package com.alevel.HotelBooking.dto;
 
 import com.alevel.HotelBooking.entities.User;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class USerDtoResponse {
+public class RegisterRequestDto {
 
-    private Integer id;
+    @NotNull
     private String username;
+
+    @Size(min = 6, max = 50)
+    private String password;
+
+    @NotNull
     private String firstName;
+
+    @NotNull
     private String lastName;
+
+    @Email
     private String email;
 
-    public User toUser(){
+    public static User toUserEntity (RegisterRequestDto registerRequestDto){
         User user = new User();
-        user.setId(id);
-        user.setUsername(username);
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setEmail(email);
+        user.setUsername(registerRequestDto.getUsername());
+        user.setPassword(registerRequestDto.getPassword());
+        user.setFirstName(registerRequestDto.getFirstName());
+        user.setLastName(registerRequestDto.getLastName());
+        user.setEmail(registerRequestDto.getEmail());
         return user;
-    }
-
-    public static USerDtoResponse fromUser(User user){
-        USerDtoResponse uSerDtoResponse = new USerDtoResponse();
-        uSerDtoResponse.setId(user.getId());
-        uSerDtoResponse.setUsername(user.getUsername());
-        uSerDtoResponse.setFirstName(user.getFirstName());
-        uSerDtoResponse.setLastName(user.getLastName());
-        uSerDtoResponse.setEmail(user.getEmail());
-
-        return uSerDtoResponse;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getUsername() {
@@ -49,6 +39,14 @@ public class USerDtoResponse {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {

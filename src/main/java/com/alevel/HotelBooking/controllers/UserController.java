@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/api/users")
+@RequestMapping(value = "/users")
 public class UserController {
 
     private final UserService userService;
@@ -26,7 +26,6 @@ public class UserController {
     @GetMapping(value = "{id}")
     public ResponseEntity<USerDtoResponse> getUserById(@PathVariable(name = "id") Integer id) {
         User user = userService.findById(id);
-
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

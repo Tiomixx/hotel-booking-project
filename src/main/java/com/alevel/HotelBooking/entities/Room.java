@@ -1,11 +1,16 @@
 package com.alevel.HotelBooking.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Builder;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "rooms")
+@Builder
 public class Room {
 
     @Id
@@ -28,8 +33,9 @@ public class Room {
     @JoinColumn(name = "hotel_id", nullable = false)
     private Hotel hotel;
 
-    @ManyToMany(mappedBy = "rooms", cascade = CascadeType.REMOVE)
-    private List<Booking> bookings;
+
+    @OneToMany(mappedBy = "rooms", cascade = CascadeType.REMOVE)
+    private transient List<Booking> bookings;
 
     @Column(name = "booked")
     private boolean booked;
@@ -101,5 +107,24 @@ public class Room {
 
     public void setBooked(boolean booked) {
         this.booked = booked;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Room room = (Room) o;
+        return roomId == room.roomId &&
+                booked == room.booked &&
+                roomNumber.equals(room.roomNumber) &&
+                price.equals(room.price) &&
+                roomCategory == room.roomCategory &&
+                Objects.equals(hotel, room.hotel) &&
+                Objects.equals(bookings, room.bookings);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(roomId, roomNumber, price, roomCategory, hotel, bookings, booked);
     }
 }
